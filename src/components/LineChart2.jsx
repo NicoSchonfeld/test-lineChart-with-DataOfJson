@@ -22,30 +22,38 @@ ChartJS.register(
   Legend
 );
 
+// ** Importamos BD
 import { Formula_Abonado } from "../db/db.json";
 
+// ** Hacemos destructuración de la BD
 const { Rendimiento, Utilidad, Rentabilidad } = Formula_Abonado;
 
+// ** Ultimo numero
 let [rendimientoFinal] = Rendimiento.slice(-1);
 let [utilidadFinal] = Utilidad.slice(-1);
 let [rentabilidadFinal] = Rentabilidad.slice(-1);
 
+// ** Calculamos el total de valores que tienen los arrays
 const rendimientoLength = Rendimiento.length;
 const utilidadLength = Utilidad.length;
 const rentabilidadLength = Rentabilidad.length;
 
-console.log(rendimientoLength, utilidadLength, rentabilidadLength);
+// console.log(rendimientoLength, utilidadLength, rentabilidadLength);
 
 const LineChart2 = () => {
+  // ** Creamos un estado para guardar el valor del input Range
   const [valueInput, setValueInput] = useState(null);
 
+  // ** Creamos una funcion para guardar en el estado el valor del input range
   const handleChangeRange = (e) => {
     const { value } = e.target;
     setValueInput(value);
   };
 
+  // ** Creamos una varable con un array vacio
   let labels = [];
 
+  // ** Guardamos en el array vacio la cantidad de valores del array de rendimiento
   for (let i = 0; i < rendimientoLength; i++) {
     labels.push(i);
   }
@@ -59,6 +67,7 @@ const LineChart2 = () => {
   // console.log(`Primer numero ${minNum} + Ultimo numero ${maxNum}`);
   // console.log(`El resultado es: ${minNum / maxNum}`);
 
+  // ** declaramos la data del grafico
   const data = {
     labels,
     datasets: [
@@ -78,15 +87,12 @@ const LineChart2 = () => {
     ],
   };
 
+  // ** añadimos opciones al grafico
   const options = {
     responsive: true,
     plugins: {
       legend: {
         position: "'top' as const",
-      },
-      title: {
-        display: true,
-        text: "Chart.js Line Chart",
       },
     },
   };
@@ -94,9 +100,11 @@ const LineChart2 = () => {
   return (
     <>
       <div className="p-40">
+        {/* Importamos el componente del grafico y le pasamos por props la data y las opciones */}
         <Line options={options} data={data} width={400} height={200} />
         <br />
 
+        {/* Creamos un input de typo range y le indicamos que su valor minimo es 0 y su valor maximo es el total del array de rendimiento - 1; Y le añadimos la funcion handleRange para guardar el valor del input */}
         <input
           className="w-100"
           type="range"
@@ -107,9 +115,8 @@ const LineChart2 = () => {
         />
       </div>
 
-      {/* viewResult(valueInput) */}
-
       <div className="p">
+        {/* Le mostramos valores al usuario segun una condicion; SI el valor del input es nulo, mostrale el utlimo valor del array de lo contrario hace un map del array y compara el index con el valor del input, si son iguales mostrame un span con el elemento, de lo contrario no me mostres nada */}
         <h3>
           Rendimiento:{" "}
           {valueInput == null ? (
@@ -129,6 +136,7 @@ const LineChart2 = () => {
         <br />
 
         <h3 style={{ color: "rgb(255, 99, 132)" }}>
+          {/* Le mostramos valores al usuario segun una condicion; SI el valor del input es nulo, mostrale el utlimo valor del array de lo contrario hace un map del array y compara el index con el valor del input, si son iguales mostrame un span con el elemento, de lo contrario no me mostres nada */}
           Utilidad:{" "}
           {valueInput == null ? (
             utilidadFinal.toFixed(2)
@@ -147,6 +155,7 @@ const LineChart2 = () => {
         <br />
 
         <h3 style={{ color: "rgb(31, 12, 143)" }}>
+          {/* Le mostramos valores al usuario segun una condicion; SI el valor del input es nulo, mostrale el utlimo valor del array de lo contrario hace un map del array y compara el index con el valor del input, si son iguales mostrame un span con el elemento, de lo contrario no me mostres nada */}
           Rentabilidad:{" "}
           {valueInput == null ? (
             rentabilidadFinal.toFixed(2)
