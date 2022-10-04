@@ -28,6 +28,10 @@ import { Formula_Abonado } from "../db/db.json";
 // ** Hacemos destructuración de la BD
 const { Rendimiento, Utilidad, Rentabilidad } = Formula_Abonado;
 
+console.log(Rendimiento);
+
+console.log(`Valor: ${Math.max(...Rendimiento)}`);
+
 // ** Ultimo numero
 let [rendimientoFinal] = Rendimiento.slice(-1);
 let [utilidadFinal] = Utilidad.slice(-1);
@@ -37,6 +41,22 @@ let [rentabilidadFinal] = Rentabilidad.slice(-1);
 const rendimientoLength = Rendimiento.length;
 const utilidadLength = Utilidad.length;
 const rentabilidadLength = Rentabilidad.length;
+
+// const [, setUtilidad_norm] = useState([]);
+// const [, setRentabilidad_norm] = useState([]);
+
+let rentabilidad_norm = [];
+let utilidad_norm = [];
+
+let maxUtil = Math.max(...Utilidad);
+let maxRent = Math.max(...Rentabilidad);
+
+for (let i = 0; i < utilidadLength; i++) {
+  rentabilidad_norm.push(Rentabilidad[i] / maxRent);
+  utilidad_norm.push(Utilidad[i] / maxUtil);
+}
+
+// console.log("nuevo valor: " + Utilidad + " ... " + Rentabilidad);
 
 // console.log(rendimientoLength, utilidadLength, rentabilidadLength);
 
@@ -73,14 +93,14 @@ const LineChart2 = () => {
     datasets: [
       {
         label: "Utilidad",
-        data: Utilidad,
+        data: utilidad_norm,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
 
       {
         label: "Rentabilidad",
-        data: Rentabilidad,
+        data: rentabilidad_norm,
         borderColor: "rgb(31, 12, 143)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
